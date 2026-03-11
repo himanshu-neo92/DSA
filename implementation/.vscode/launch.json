@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug DSA",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/main_debug",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": ""
+        },
+        {
+            "name": "Debug DSA (CodeLLDB)",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/main_debug",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

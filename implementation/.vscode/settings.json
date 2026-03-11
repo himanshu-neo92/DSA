@@ -1,0 +1,15 @@
+{
+  "devmate.inlineSuggestions.enabled": false,
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.cpp$",
+        "cmd": "/Applications/Xcode_26.0.0_17A324_fb.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-format -i ${file}"
+      },
+      {
+        "match": "\\.h$",
+        "cmd": "/Applications/Xcode_26.0.0_17A324_fb.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-format -i ${file}"
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+# Build artifacts
+main
+main_*
+*.dSYM/
+
+# Temporary build files
+.submit_runner
+.finish_asan
+.finish_ubsan

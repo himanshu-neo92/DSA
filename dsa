@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+
+# DSA - Unified Entry Point
+#
+# Routes commands to the appropriate implementation script:
+#   Workflow commands (create, submit, finish, list) → implementation/dsa.sh
+#   Build commands (run, build, lint, asan, ...)     → implementation/build.sh
+#
+# Usage:
+#   ./dsa <command> [args]
+#
+# Examples:
+#   ./dsa list                 # Browse questions
+#   ./dsa create TwoSum        # Load a question
+#   ./dsa run                  # Build and run tests
+#   ./dsa submit               # Submit your answer
+#   ./dsa finish               # Archive with analytics
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+IMPL_DIR="$SCRIPT_DIR/implementation"
+
+# Workflow commands → dsa.sh
+DSA_COMMANDS="create submit finish list"
+
+# Build commands → build.sh
+BUILD_COMMANDS="build run clean lint check asan ubsan debug debugout all deps"
+
+show_help() {
+    echo "DSA - Data Structures & Algorithms Practice"
+    echo ""
+    echo "Usage: ./dsa <command> [args]"
+    echo ""
+    echo "Workflow Commands:"
+    echo "  create <name>      Load a question to solve"
+    echo "  submit             Submit and test your current answer"
+    echo "  finish             Archive solution with full analytics report"
+    echo "  list [category]    List available questions"
+    echo ""
+    echo "Build Commands:"
+    echo "  run                Build and run tests"
+    echo "  build              Compile the project only"
+    echo "  clean              Remove build artifacts"
+    echo "  lint               Run clang-tidy static analysis"
+    echo "  check              Compile with strict warnings"
+    echo "  asan               Run AddressSanitizer (memory errors)"
+    echo "  ubsan              Run UndefinedBehaviorSanitizer"
+    echo "  debug              Build with debug symbols for VSCode debugger"
+    echo "  debugout           Build with DEBUG_OUT macro enabled and run"
+    echo "  all                Run all checks, then build and run"
+    echo "  deps               Show dependency install instructions"
+    echo ""
+    echo "Examples:"
+    echo "  ./dsa list                 # Browse available questions"
+    echo "  ./dsa create TwoSum        # Load a question"
+    echo "  ./dsa run                  # Build and run tests"
+    echo "  ./dsa submit               # Submit when all tests pass"
+    echo "  ./dsa finish               # Archive with analytics report"
+    echo ""
+    echo "Workflow:"
+    echo "  1. ./dsa create TwoSum     # Load a question"
+    echo "  2. Edit CurrentProblem/TwoSum.cpp"
+    echo "  3. ./dsa run               # Quick test iteration"
+    echo "  4. ./dsa submit            # Submit when ready"
+    echo "  5. ./dsa finish            # Archive with analytics"
+}
+
+if [ $# -eq 0 ]; then
+    show_help
+    exit 0
+fi
+
+cmd="$1"
+shift
+
+case "$cmd" in
+    # Workflow commands → dsa.sh
+    create|submit|finish|list)
+        exec "$IMPL_DIR/dsa.sh" "$cmd" "$@"
+        ;;
+
+    # Build commands → build.sh
+    build|run|clean|lint|check|asan|ubsan|debug|debugout|all|deps)
+        exec "$IMPL_DIR/build.sh" "$cmd" "$@"
+        ;;
+
+    help|-h|--help)
+        show_help
+        ;;
+
+    *)
+        echo "Unknown command: $cmd"
+        echo ""
+        echo "Run './dsa help' to see available commands."
+        exit 1
+        ;;
+esac
