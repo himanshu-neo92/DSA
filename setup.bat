@@ -19,7 +19,7 @@ if %ERRORLEVEL% EQU 0 (
     if %ERRORLEVEL% EQU 0 (
         echo  Ubuntu is available. Launching setup inside WSL...
         echo.
-        wsl -d Ubuntu -- bash -c "cd \"$(wslpath '%~dp0')\" && ./setup.sh"
+        wsl -d Ubuntu -- bash -c "cd \$(wslpath '%~dp0')\ && ./setup.sh"
         goto :done
     ) else (
         echo  Ubuntu not found. Installing Ubuntu...
